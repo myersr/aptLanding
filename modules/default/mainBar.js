@@ -1,14 +1,16 @@
-import React from 'react'
+/**
+ * Created by roy on 12/23/16.
+ */
+import React from 'react';
 import {blueGrey500, blueGrey700, pinkA200,
     grey100, grey300, grey400, grey500,
     white, darkBlack, fullBlack} from 'material-ui/styles/colors';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import AppBar from 'material-ui/AppBar';
+import GoMarkGithub from 'react-icons/lib/go/mark-github';
 
-import Main from './default/mainBar';
-
-import sideB from './componentsUI/sideBar'
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -34,21 +36,18 @@ const muiThemeC = getMuiTheme({
     },
 });
 
-
-
-export default React.createClass({
-    render() {
-
-        return (
-            <MuiThemeProvider muiTheme={muiThemeC}>
-                <sideB>
-                    <div>
-                        <Main/>
-                        <p title="contentHeader" />
-                        { this.props.children }
-                    </div>
-                </sideB>
-            </MuiThemeProvider>
-        )
+const styles = {
+    button: {
+        margin: 12,
     }
-})
+};
+
+
+// MuiThemeProvider takes the theme as a property and passed it down the hierarchy.
+const Main = () => (
+    <MuiThemeProvider muiTheme={muiThemeC}>
+        <AppBar title="Lofts 401" zDepth={2}  iconElementRight={<a href="https://github.com/myersr"><GoMarkGithub style={styles.button} color="white" size={24} /></a>} />
+    </MuiThemeProvider>
+);
+
+export default Main;

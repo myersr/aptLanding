@@ -15,4 +15,4 @@ const AppBarExampleIcon = () => (
     />
 );
 
-export default AppBarExampleIcon;
+export default AppBarD;
