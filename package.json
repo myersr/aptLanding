@@ -4,16 +4,20 @@
   "description": "A Landing Page for an Apartment",
   "author": "Roy Myers <roymyers@protonmail.com>",
   "scripts": {
-    "start": "webpack-dev-server --inline --content-base . --history-api-fallback",
+    "start": "webpack-dev-server --inline --content-base . --history-api-fallback --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "ISC",
   "dependencies": {
+    "clipboard": "^1.5.16",
     "express": "^4.14.0",
     "material-ui": "^0.16.5",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-icons": "^2.2.2",
+    "react-octicon": "^2.0.0",
     "react-router": "^3.0.0",
+    "react-sidebar": "^2.2.1",
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
