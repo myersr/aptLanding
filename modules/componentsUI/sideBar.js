@@ -1,57 +1,37 @@
-/**
- * Created by roy on 12/24/16.
- */
-var React = require('react');
-var Sidebar = require('react-sidebar');
+import React from 'react';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 
+import FaAlignJustify from 'react-icons/lib/fa/align-justify';
 
-var sideBar = React.createClass({
-    getInitialState() {
-        return {sidebarOpen: true, sidebarDocked: true};
-    },
+export default class DrawerDck extends React.Component {
 
-    onSetSidebarOpen: function(open) {
-        this.setState({sidebarOpen: open});
-    },
+    constructor(props) {
+        super(props);
+        this.state = {open: false};
+    }
 
-    componentWillMount: function() {
-        var mql = window.matchMedia(`(min-width: 800px)`);
-        mql.addListener(this.mediaQueryChanged);
-        this.setState({mql: mql, sidebarDocked: mql.matches});
-    },
+    handleToggle = () => this.setState({open: !this.state.open});
 
-    componentWillUnmount: function() {
-        this.state.mql.removeListener(this.mediaQueryChanged);
-    },
+    handleClose = () => this.setState({open: false});
 
-    mediaQueryChanged: function() {
-        this.setState({sidebarDocked: this.state.mql.matches});
-    },
-
-    onSetOpen(open) {
-        this.setState({open: open});
-    },
-
-    toggleOpen(ev) {
-        this.setState({open: !this.state.open});
-
-        if (ev) {
-            ev.preventDefault();
-        }
-    },
-
-    render: function() {
-        var sidebarContent = <b>Sidebar content</b>;
-
+    render() {
         return (
-            <Sidebar sidebar={sidebarContent}
-                     open={this.state.sidebarOpen}
-                     docked={this.state.sidebarDocked}
-                     onSetOpen={this.onSetSidebarOpen}>
-                <b>Main content</b>
-            </Sidebar>
+            <div>
+                <IconButton tooltip="Menu" onTouchTap={this.handleToggle} ><NavigationMenu /></IconButton>
+                <Drawer
+                    docked={false}
+                    width={200}
+                    open={this.state.open}
+                    onRequestChange={(open) => this.setState({open})}
+                >
+                    <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+                </Drawer>
+            </div>
         );
     }
-});
-
-module.exports = sideBar;
+}

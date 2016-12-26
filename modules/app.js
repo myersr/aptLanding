@@ -8,7 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Main from './default/mainBar';
 
-import sideB from './componentsUI/sideBar'
+import DrawerDck from './componentsUI/sideBar'
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -41,13 +41,11 @@ export default React.createClass({
 
         return (
             <MuiThemeProvider muiTheme={muiThemeC}>
-                <sideB>
                     <div>
                         <Main/>
                         <p title="contentHeader" />
                         { this.props.children }
                     </div>
-                </sideB>
             </MuiThemeProvider>
         )
     }

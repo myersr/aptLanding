@@ -28,6 +28,7 @@ export default class EmailItem extends React.Component {
             emailT: props.emailText,
             secondaryT: props.secondaryText
         };
+        this.hLink = 'mailto:'+props.emailText
         // this.switchIcon = this.switchIcon.bind(this)
     }
 
@@ -74,7 +75,7 @@ export default class EmailItem extends React.Component {
                     leftIcon={this.state.clippy}
                     primaryText={this.state.emailT}
                     secondaryText={this.state.secondaryT}
-                    rightIcon={<a href="mailto:{this.state.emailT}"><GoMail size={24} color={brown500}/></a>}
+                    rightIcon={<a href={this.hLink} ><GoMail size={24} color={brown500}/></a>}
                 />
             </div>
 
