@@ -21,7 +21,7 @@ export default class DrawerDck extends React.Component {
     render() {
         return (
             <div>
-                <IconButton tooltip="Menu" onTouchTap={this.handleToggle} ><NavigationMenu /></IconButton>
+                <IconButton tooltip="Menu" onTouchTap={this.handleToggle} ><NavigationMenu color="white" /></IconButton>
                 <Drawer
                     docked={false}
                     width={200}
