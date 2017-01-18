@@ -58,10 +58,15 @@ export default class EmailItem extends React.Component {
     };
 
 
-
+    //
+    // setTimeout(function = () => {
+    //     if (newState == -1) {
+    //         alert('VIDEO HAS STOPPED');
+    //     }
+    // }, 5000)
     // switchIcon(){
     //     this.setState(prevState => ({
-    //         clippy: <GoCheck color={brown500}/>
+    //         clippy: <GoClippy color={brown500}/>
     //     }));
     // }
 
