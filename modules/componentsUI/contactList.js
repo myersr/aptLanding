@@ -109,10 +109,12 @@ const ContactList = () => (
                     </ListItem>
                 </a>
                 <Divider inset={true} />
-                <ListItem
-                    leftIcon={<MdPictureAsPdf color={brown500} />}
-                    primaryText="Resume">
-                </ListItem>
+                <a href="https://tinyrick.me/docs/resumeRoyMyers2017.pdf">
+                    <ListItem
+                        leftIcon={<MdPictureAsPdf color={brown500} />}
+                        primaryText="Resume">
+                    </ListItem>
+                </a>
             </List>
         </Paper>
     </div>

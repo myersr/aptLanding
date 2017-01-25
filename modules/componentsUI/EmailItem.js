@@ -41,6 +41,10 @@ export default class EmailItem extends React.Component {
             }));
 
             e.clearSelection();
+            // setTimeout(
+            //     escape("this.setState(prevState => ({clippy: <GoClippy size={10} color={brown500}/>}))")
+            // , 1000)
+            //setTimeout('console.log("test")', 1000)
         })
 
         this.clipboard.on('error', (e) =>{
