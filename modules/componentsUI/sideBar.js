@@ -7,6 +7,7 @@ import {blueGrey500, blueGrey700, pinkA200,
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import { Link } from 'react-router'
 
 import FaAlignJustify from 'react-icons/lib/fa/align-justify';
 
@@ -47,15 +48,12 @@ export default class DrawerDck extends React.Component {
     render() {
         return (
             <div>
-                <IconButton tooltip="Menu" onTouchTap={this.handleToggle} ><NavigationMenu color="white" /></IconButton>
-                <Drawer
-                    docked={false}
-                    width={200}
-                    open={this.state.open}
-                    onRequestChange={(open) => this.setState({open})}
-                >
-                    <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-                    <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+                <IconButton onTouchTap={this.handleToggle} ><NavigationMenu color="white" /></IconButton>
+                <Drawer docked={false} width={225}
+                        open={this.state.open} onRequestChange={(open) => this.setState({open})}>
+
+                    <Link to={`/`}><MenuItem onTouchTap={this.handleClose}>HOME</MenuItem></Link>
+                    <Link to={`/about`}><MenuItem onTouchTap={this.handleClose}>ABOUT</MenuItem></Link>
                 </Drawer>
             </div>
         );

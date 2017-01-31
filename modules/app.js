@@ -6,9 +6,9 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import Main from './default/mainBar';
+import Main from 'default/mainBar';
 
-import FooterBar from './componentsUI/footerBar'
+import FooterBar from 'componentsUI/footerBar'
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
 // More on Colors: http://www.material-ui.com/#/customization/colors
@@ -42,7 +42,6 @@ export default React.createClass({
             <MuiThemeProvider muiTheme={muiThemeC}>
                     <div>
                         <Main/>
-                        <p title="contentHeader" />
                         { this.props.children }
                         <FooterBar/>
                     </div>

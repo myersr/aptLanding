@@ -4,62 +4,43 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import SplineGraph from '../componentsUI/dashboard/splineGraph'
+import SplineGraph from 'dashboard/splineGraph'
 
-// charts(FusionCharts)
-{/*FusionCharts.ready(function (){*/}
-    {/*var myDataSource = {*/}
-            {/*chart: {*/}
-                {/*caption: 'Harry\'s SuperMart',*/}
-                {/*subCaption: 'Top 5 stores in last month by revenue',*/}
-                {/*numberPrefix: '$',*/}
-                {/*theme: 'graphite'*/}
-            {/*},*/}
-            {/*data: [*/}
-                {/*{*/}
-                    {/*label: 'Bakersfield Central',*/}
-                    {/*value: '880000'*/}
-                {/*},*/}
-                {/*{*/}
-                    {/*label: 'Garden Groove harbour',*/}
-                    {/*value: '730000'*/}
-//                 },
-//                 {
-//                     label: 'Los Angeles Topanga',
-//                     value: '590000'
-//                 },
-//                 {
-//                     label: 'Compton-Rancho Dom',
-//                     value: '520000'
-//                 },
-//                 {
-//                     label: 'Daly City Serramonte',
-//                     value: '330000'
-//                 }
-//             ]
-//         },
-//
-//         revenueChartConfigs = {
-//             id: 'revenue-chart',
-//             type: 'column2d',
-//             width: 300,
-//             height: 300,
-//             dataFormat: 'json',
-//             dataSource: myDataSource
-//         };
-//     ReactDOM.render(<ReactFC {...revenueChartConfigs} />,
-//         document.getElementById('chart-container')
-//     );
-// })
 
-export default React.createClass({
+class About extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            options:{
+                title: 'Age vs. Weight comparison',
+                hAxis: {title: 'Age', minValue: 0, maxValue: 15},
+                vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
+                legend: 'none',
+                width:400,
+                height:300
+            },
+            data:[
+                ['time', 'Temp'],
+                [ 3,      3.5],
+                [ 4,      5],
+                [ 4,      5.5],
+                [ 6.5,    7],
+                [ 8,      12],
+                [ 11,     14]
+            ]
+        };
+
+    }
+
     render() {
         return (
             <div>
                 <p>Tutorial Header</p>
-                <SplineGraph/>
+                <SplineGraph options={this.state.options} data={this.state.data} divN="chart_div" cType="AreaChart"/>
                 <div></div>
             </div>
         )
     }
-})
+}
+export default About;
