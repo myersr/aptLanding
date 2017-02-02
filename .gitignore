@@ -5,3 +5,4 @@ npm-debug.lo*
 
 #flask stuff
 ENV/
+logOutput*

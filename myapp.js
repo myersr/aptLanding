@@ -15,7 +15,7 @@ import sideB from 'componentsUI/sideBar'
 const style = {
     display: "flex"
 }
-var NotFoundRoute = Router.NotFoundRoute;
+//var NotFoundRoute = Router.NotFoundRoute;
 injectTapEventPlugin() //Maps touch/tap/click events. Temporary until react is react is finished
 
 render(<App/>, document.getElementById('app'))
