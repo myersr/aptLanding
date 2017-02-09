@@ -2,33 +2,50 @@
 
 from datetime import timedelta
 from flask import Flask, jsonify, make_response, current_app, request
-from flask_socketio import SocketIO, emit, send
+import socketio
+import eventlet.wsgi
 from functools import update_wrapper
 import requests
 from random import randint
+import ast
+import os
 
 #sensors
-import json
-import re
-import subprocess
-import time
+import json, re, subprocess, time, datetime, threading
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+sio = socketio.Server()
 
-#checks and reformats output of lm-sensors and smartctl
-def get_temperatures(disks):
+
+exitFlag = 0
+
+class liveThread (threading.Thread):
+    def __init__(self, threadID, name, sid, tCounter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.sid = sid
+        self.tCounter = tCounter
+    def run(self):
+        #print "Starting " + self.name
+        while True:
+            dataR = get_temperatures(self.name, self.tCounter)
+            print dataR
+            sio.send(dataR, room=self.sid)
+            self.tCounter+=1
+            #print "Killing self %d" % self.threadID
+
+
+
+
+def get_temperatures():
     sensors = subprocess.check_output("sensors")
-    temperatures = {match[0]: float(match[1]) for match in re.findall("^(.*?)\:\s+\+?(.*?)°C", sensors, re.MULTILINE)}
-    for disk in disks:
-        output = subprocess.check_output(["smartctl", "-A", disk])
-        temperatures[disk] = int(re.search("Temperature.*\s(\d+)\s*(?:\([\d\s]*\)|)$", output, re.MULTILINE).group(1))
-    return temperatures
+    now = datetime.datetime.now()
+    match = re.search("(Physical id 0)\:\s+\+?(.*?)\.0°C", sensors, re.MULTILINE)
+    temperatures = [[now.hour, now.minute, now.second],int(match.group(2))]
+    return json.dumps(temperatures)
 
-def runMonitor():
-    while True:
-        print json.dumps(get_temperatures(("/dev/sda", "/dev/sdc")))
-        time.sleep(5)
+
 
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
@@ -84,44 +101,72 @@ def hello():
     r.text
     return jsonify(comicUrl=r.json()["img"])
 
-@socketio.on('connect')
-def test_connect():
+@sio.on('connect')
+def test_connect(sid, environ):
     print "connected"
 
-@socketio.on('get python')
-def test_connect():
+@sio.on('get python')
+def test_connect(sid, data):
     linesD = []
     for json_data in open('logOutput.json'):
        #print json_data
-       linesD.append(json.loads(json_data))#, sort_keys=False)
+       linesD.append(ast.literal_eval(json_data))#, sort_keys=False)
        #d = json.loads(line)
-    #print linesD
+    print linesD
     t = json.dumps(linesD)
-    print 'sending data'
-    socketio.emit('from python', t)
+    return t
+    # sio.emit('from python', t)
     # socketio.emit('from python', {'data': 'Connected'})
 
-@socketio.on('disconnect')
-def test_disconnect():
-    print('Client disconnected')
+@sio.on('killCon')
+def test_disconnect(sid):
+    print "client %s disconnected." % sid
+    #return "Disconnected from host"
+    sio.disconnect(sid=sid)
 
-@socketio.on('jsonEv')
-def handle_json(jsonIn):
-    print('received json: ' + str(json))
+# @sio.on('jsonEv')
+# def handle_json(jsonIn):
+#     print('received json: ' + str(json))
+loop = True
 
-@socketio.on('my event')
-def handle_my_custom_event(jsonIn):
-    # linesD = []
-    # for json_data in open('logOutput.json'):
-    #    #print json_data
-    #    linesD.append(json.loads(json_data))#, sort_keys=False)
-    #    #d = json.loads(line)
-    # #print linesD
-    # t = json.dumps(linesD)
-    socketio.emit('my response', "Fuck this")
+@sio.on('kill loop')
+def handleLiveTrigger(sid, chartName):
+    print "killed"
+    loop = False
+
+def spawnIt(sid, intId):
+    print "Live feed from %s" % sid
+    dataRow = get_temperatures()
+    print dataRow
+    sio.send(dataRow, room=sid)
+    #time.sleep(2)
+
+@sio.on('start live')
+def handleLiveTrigger(sid, chartName):
+    print "Starting thread"
+    while True:
+        eventlet.greenthread.spawn_n(spawnIt ,sid, 1)
+        eventlet.greenthread.sleep(3)
+        # evenT.sleep(3)
+        # evenT.kill()
+        #evenT.sleep(seconds=2)
+
+    # thread1 = liveThread(420, "bitch", sid, 1)
+    # thread1.start()
+    # loop = True
+    #print "Live feed"
+    #dataRow = get_temperatures()
+    #print dataRow
+    # sio.emit('transmit stream',room=sid,data=dataRow)
+    #sio.send(dataRow,room=sid)
+    # time.sleep(3)
+
+
 
 if __name__ == "__main__":
-    socketio.run(app)
+    app = socketio.Middleware(sio, app)
+    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+
 
     # with open('logOutput.json') as json_data:
     #     d = json.load(json_data)

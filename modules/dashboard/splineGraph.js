@@ -27,7 +27,7 @@ const styles = {
     }
 }
 
-let socket = io.connect('http://localhost:5000')
+var socket = io.connect('http://localhost:5000')
 
 export default class SplineGraph extends React.Component {
 
@@ -39,71 +39,82 @@ export default class SplineGraph extends React.Component {
             data: props.data,
             divN: props.divN
         };
-        this.clicked = (ev) => socket.emit('my event',function (){console.log("hit my event")})//console.log("button triggered")
+
+        this.clicked = (ev) => socket.emit('start live', { my: 'data' },function (){})//console.log("button triggered")
+        this.killed = (ev) => socket.emit('kill loop', { my: 'data' },function (){
+            console.log("killing feed")
+            socket.emit('killCon')
+        })//console.log("button triggered")
 
     }
-
-    // _initialize(data){
-    //     console.log(data)
-    //     // setState({
-    //     // })
-    // }
 
     componentWillMount(){
-        google.charts.load('current');
+        google.charts.load('current',{'packages':['corechart']});
         console.log("Will mount")
+
 
     }
 
+
     componentDidMount(){
-        socket.on('connect', function(){
-            console.log("connected")
-            console.log(socket.id); // 'G5p5...'
-        });
-
-        socket.on('my response',function (data){
-            console.log(data)
-        })
-        // socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-        //
-        // });
-        // socket.on('from python', function (data){
-        //     console.log('inside event')
-        //     console.log(data)
-        // })
-
-        // socket.on('disconnect', function(){
-        //     console.log("connected")
-        //     console.log(socket.id); // 'G5p5...'
-        // });
-
-
-        // this.socket.on('from python', function (data){
-        //     console.log('inside event')
-        //     console.log(data)
-        // })
-
-        //socket.on('send:message', this._dataRecieve);
-        //socket.on('user:join', this._userJoined);
         google.charts.setOnLoadCallback(this.drawChart);
-        console.log("Did mount")
-
+        console.log("Did mount, calling draw")
     }
 
     componentWillUnmount(){
         // clearChart() no method looks like react takes care of killing instance
-        console.log("splineGraph unmounted")
+        socket.emit('killCon', function (statusM){
+            console.log("Attempted Unmount")
+        })
+        // console.log("splineGraph unmounted")
 
     };
 
     drawChart = () =>{
-        var wrapper = new google.visualization.ChartWrapper({
-            chartType: this.state.cType,
-            dataTable: this.state.data,
-            options: this.state.options,
-            containerId: this.state.divN
-        });
-        wrapper.draw();
+        console.log("in drawChartFunc")
+        // var dataT = new google.visualization.DataTable(dataCon)
+        // console.log(dataCon)
+        // dataT.addColumn('datetime', 'Time');
+        // dataT.addColumn('number', 'Temp');
+        var divNu = this.state.divN
+        var stateOpt = this.state.options
+        socket.emit("get python", { my: 'data' }, function (returnJ){
+            var dataT = new google.visualization.DataTable()
+            dataT.addColumn('timeofday', 'Time');
+            dataT.addColumn('number', 'Temp');
+            var responseArray = JSON.parse(returnJ)
+            dataT.addRows(responseArray)
+            var chart = new google.visualization.AreaChart(document.getElementById(divNu));
+
+
+
+            socket.on("message", function (dataRet){
+                var holderArr = [JSON.parse(dataRet)]
+                var lastIndex = dataT.getNumberOfRows()
+                if (lastIndex > 65) {
+                    dataT.removeRow(dataT.getNumberOfRows());
+                    lastIndex = lastIndex -1;
+                }
+                dataT.insertRows(lastIndex, holderArr)
+                chart.draw(dataT, stateOpt);
+            })
+            chart.draw(dataT, stateOpt);
+            // dataT.addRows([
+            //     returnJ
+            //     // (new Date(returnJ.timestamp)),
+            //     // parseFloat(returnJ.temp),
+            // ]);
+        })
+        // var chart = new google.visualization.AreaChart(document.getElementById(this.state.divN));
+        // console.log("before draw")
+        // chart.draw(dataT, this.state.options);
+        // var wrapper = new google.visualization.ChartWrapper({
+        //     chartType: this.state.cType,
+        //     dataTable: this.state.data,
+        //     options: this.state.options,
+        //     containerId: this.state.divN
+        // });
+        // wrapper.draw();
         // var data = google.visualization.arrayToDataTable(this.state.data)
         // this.chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
         // this.chart.draw(data, this.state.options);
@@ -113,6 +124,10 @@ export default class SplineGraph extends React.Component {
         function clickThis() {
             console.log("button works")
         }
+
+        socket.on('my response',function (data){
+            console.log(data)
+        })
 
         return (
             <div>
@@ -129,6 +144,7 @@ export default class SplineGraph extends React.Component {
                  onClick={() => this.props.whenClicked() }
                  />*/}
                 <RaisedButton label="Primary" primary={true} style={style} onTouchTap={this.clicked} />
+                <RaisedButton label="Secondary" primary={true} style={style} onTouchTap={this.killed} />
             </div>
         )
     }

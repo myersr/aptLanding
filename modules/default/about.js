@@ -12,13 +12,18 @@ class About extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+
             options:{
-                title: 'Age vs. Weight comparison',
-                hAxis: {title: 'Age', minValue: 0, maxValue: 15},
-                vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
+                title: 'Temps',
                 legend: 'none',
-                width:400,
-                height:300
+                hAxis: {title: 'Time: hour:min:sec'},
+                vAxis: {title: 'Temperature of CPU', minValue: 20, maxValue: 90},
+                width:600,
+                height:500,
+                animation: {
+                    duration: 500,
+                    easing: 'in'
+                }
             },
             data:[
                 ['time', 'Temp'],
@@ -36,7 +41,6 @@ class About extends React.Component{
     render() {
         return (
             <div>
-                <p>Tutorial Header</p>
                 <SplineGraph options={this.state.options} data={this.state.data} divN="chart_div" cType="AreaChart"/>
                 <div></div>
             </div>
