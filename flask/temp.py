@@ -13,10 +13,10 @@ class liveThread (threading.Thread):
         self.tCounter = tCounter
     def run(self):
         #print "Starting " + self.name
-        while self.tCounter < 9:
+        while self.tCounter < 20:
             print "Thread running\n"
             self.tCounter+=1
-            time.sleep(1)
+            time.sleep(2)
         kill_event.set()
         print "Thread exited"
 

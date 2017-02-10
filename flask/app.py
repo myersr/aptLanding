@@ -30,7 +30,7 @@ class liveThread (threading.Thread):
         #print "Starting " + self.name
         while True:
             dataR = get_temperatures(self.name, self.tCounter)
-            print dataR
+            #print dataR
             sio.send(dataR, room=self.sid)
             self.tCounter+=1
             #print "Killing self %d" % self.threadID
@@ -101,15 +101,18 @@ def hello():
     r.text
     return jsonify(comicUrl=r.json()["img"])
 
+gsid = ''
+
 @sio.on('connect')
 def test_connect(sid, environ):
-    print "connected"
+    gsid = str(sid)
+    print "connected: %s" % sid
 
 @sio.on('get python')
 def test_connect(sid, data):
     linesD = []
     for json_data in open('logOutput.json'):
-       #print json_data
+       #print jsnoton_data
        linesD.append(ast.literal_eval(json_data))#, sort_keys=False)
        #d = json.loads(line)
     print linesD
@@ -134,19 +137,20 @@ def handleLiveTrigger(sid, chartName):
     print "killed"
     loop = False
 
+
 def spawnIt(sid, intId):
-    print "Live feed from %s" % sid
+    #print "Live feed from %s" % sid
     dataRow = get_temperatures()
-    print dataRow
+    #print dataRow
     sio.send(dataRow, room=sid)
     #time.sleep(2)
 
 @sio.on('start live')
 def handleLiveTrigger(sid, chartName):
-    print "Starting thread"
+    print "Starting thread for %s" % sid
     while True:
         eventlet.greenthread.spawn_n(spawnIt ,sid, 1)
-        eventlet.greenthread.sleep(3)
+        eventlet.greenthread.sleep(1)
         # evenT.sleep(3)
         # evenT.kill()
         #evenT.sleep(seconds=2)

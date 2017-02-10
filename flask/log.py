@@ -22,9 +22,14 @@ def get_temperatures():
 def main():
     f = open("logOutput.json", 'w')
     f.truncate()
-    for i in range(0,15):
+    print datetime.datetime.now()
+    #for i in range(0,15):
+    newline = ''
+    while True:
+        f.write(newline)
         f.write(json.dumps(get_temperatures()))
         time.sleep(1)
+        newline='\n'
     f.close()
 
 
