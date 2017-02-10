@@ -20,9 +20,13 @@ def get_temperatures():
 
 
 def main():
-    while True:
-        print json.dumps(get_temperatures())
-        time.sleep(3)
+    f = open("logOutput.json", 'w')
+    f.truncate()
+    for i in range(0,15):
+        f.write(json.dumps(get_temperatures()))
+        time.sleep(1)
+    f.close()
+
 
 
 if __name__ == "__main__":
