@@ -79,22 +79,23 @@ export default class SplineGraph extends React.Component {
         var divNu = this.state.divN
         var stateOpt = this.state.options
         socket.emit("get python", { my: 'data' }, function (returnJ){
-            var dataT = new google.visualization.DataTable()
+            let dataT = new google.visualization.DataTable()
             dataT.addColumn('timeofday', 'Time');
             dataT.addColumn('number', 'Temp');
             var responseArray = JSON.parse(returnJ)
             dataT.addRows(responseArray)
-            var chart = new google.visualization.AreaChart(document.getElementById(divNu));
+            let chart = new google.visualization.AreaChart(document.getElementById(divNu));
 
 
 
             socket.on("message", function (dataRet){
-                var holderArr = [JSON.parse(dataRet)]
-                var lastIndex = dataT.getNumberOfRows()
-                if (lastIndex > 65) {
-                    dataT.removeRow(dataT.getNumberOfRows());
-                    lastIndex = lastIndex -1;
-                }
+                let holderArr = [JSON.parse(dataRet)]
+                let lastIndex = dataT.getNumberOfRows()
+                console.log
+                // if (lastIndex > 65) {
+                //     dataT.removeRow(dataT.getNumberOfRows());
+                //     lastIndex = lastIndex -1;
+                // }
                 dataT.insertRows(lastIndex, holderArr)
                 chart.draw(dataT, stateOpt);
             })

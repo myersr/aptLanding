@@ -17,11 +17,11 @@ class About extends React.Component{
                 title: 'Temps',
                 legend: 'none',
                 hAxis: {title: 'Time: hour:min:sec'},
-                vAxis: {title: 'Temperature of CPU', minValue: 20, maxValue: 90},
+                vAxis: {title: 'Temperature of CPU', minValue: 40, maxValue: 80},
                 width:600,
                 height:500,
                 animation: {
-                    duration: 500,
+                    duration: 200,
                     easing: 'in'
                 }
             },

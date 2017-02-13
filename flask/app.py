@@ -93,47 +93,39 @@ def crossdomain(origin=None, methods=None, headers=None,
 @crossdomain(origin='*')
 def hello():
     randNum = randint(1,1792)
+    if randNum is 404:
+        randNum = randint(1,1792)
     r = requests.get('http://xkcd.com/'+ str(randNum) +'/info.0.json')
-    print r.json()
+    #print r.json()
     r.status_code
     r.headers['content-type']
     r.encoding
     r.text
     return jsonify(comicUrl=r.json()["img"])
 
-gsid = ''
 
-@sio.on('connect')
-def test_connect(sid, environ):
-    gsid = str(sid)
-    print "connected: %s" % sid
 
-@sio.on('get python')
-def test_connect(sid, data):
+@app.route("/chartson", methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
+def chartData():
     linesD = []
     for json_data in open('logOutput.json'):
-       #print jsnoton_data
-       linesD.append(ast.literal_eval(json_data))#, sort_keys=False)
-       #d = json.loads(line)
-    print linesD
+        # print jsnoton_data
+        linesD.append(ast.literal_eval(json_data))  # , sort_keys=False)
+        # d = json.loads(line)
     t = json.dumps(linesD)
-    return t
-    # sio.emit('from python', t)
-    # socketio.emit('from python', {'data': 'Connected'})
+    return jsonify(data=t)
 
-@sio.on('killCon')
-def test_disconnect(sid):
-    print "client %s disconnected." % sid
-    #return "Disconnected from host"
-    sio.disconnect(sid=sid)
+
 
 # @sio.on('jsonEv')
 # def handle_json(jsonIn):
 #     print('received json: ' + str(json))
 loop = True
 
-@sio.on('kill loop')
-def handleLiveTrigger(sid, chartName):
+@app.route("/killT/<chart>")
+@crossdomain(origin='*')
+def handleLiveKill(sid, chartName):
     print "killed"
     loop = False
 
@@ -145,12 +137,13 @@ def spawnIt(sid, intId):
     sio.send(dataRow, room=sid)
     #time.sleep(2)
 
-@sio.on('start live')
-def handleLiveTrigger(sid, chartName):
+@app.route("/feed/<string:chart>")
+@crossdomain(origin='*')
+def handleLiveTrigger(chart):
     print "Starting thread for %s" % sid
-    while True:
-        eventlet.greenthread.spawn_n(spawnIt ,sid, 1)
-        eventlet.greenthread.sleep(1)
+    # while True:
+    #     eventlet.greenthread.spawn_n(spawnIt ,sid, 1)
+    #     eventlet.greenthread.sleep(1)
         # evenT.sleep(3)
         # evenT.kill()
         #evenT.sleep(seconds=2)
@@ -168,7 +161,7 @@ def handleLiveTrigger(sid, chartName):
 
 
 if __name__ == "__main__":
-    app = socketio.Middleware(sio, app)
+    #app = socketio.Middleware(sio, app)
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
 
 
