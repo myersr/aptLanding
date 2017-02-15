@@ -4,14 +4,18 @@
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-router'
 
-import App from './modules/app'
-import About from './modules/default/about'
-import Home from './modules/default/home'
-import sideB from './modules/componentsUI/sideBar'
+import App from 'modules/app'
+import About from 'default/about'
+import Home from 'default/home'
+import NotFound from 'default/notFound'
+import sideB from 'componentsUI/sideBar'
 
-
+const style = {
+    display: "flex"
+}
+//var NotFoundRoute = Router.NotFoundRoute;
 injectTapEventPlugin() //Maps touch/tap/click events. Temporary until react is react is finished
 
 render(<App/>, document.getElementById('app'))
@@ -22,6 +26,8 @@ render((
             <IndexRoute component={Home}/>
             {/*<Route path="/home" component={Home}/>*/}
             <Route path="/about" component={About}/>
+            <Route path="/404" component={NotFound} />
+            <Redirect from={'*'} to="/404" />
         </Route>
     </Router>
 ), document.getElementById('app'))

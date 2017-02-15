@@ -5,8 +5,8 @@ import React from 'react'
 import GoMarkGithub from 'react-icons/lib/go/mark-github';
 import RaisedButton from 'material-ui/RaisedButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import MeCard from '../componentsUI/meCard';
-import ContactList from '../componentsUI/contactList';
+import MeCard from 'componentsUI/meCard';
+import ContactList from 'componentsUI/contactList';
 
 const style = {
     margin: 12,

@@ -11,6 +11,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import GoMarkGithub from 'react-icons/lib/go/mark-github';
 
+import DrawerDck from 'componentsUI/sideBar';
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -46,7 +47,7 @@ const styles = {
 // MuiThemeProvider takes the theme as a property and passed it down the hierarchy.
 const Main = () => (
     <MuiThemeProvider muiTheme={muiThemeC}>
-        <AppBar title="Lofts 401" zDepth={2}  iconElementRight={<a href="https://github.com/myersr"><GoMarkGithub style={styles.button} color="white" size={24} /></a>} />
+        <AppBar title="Lofts 401" zDepth={3} iconElementLeft={<DrawerDck />}  iconElementRight={<a href="https://github.com/myersr"><GoMarkGithub style={styles.button} color="white"/></a>} />
     </MuiThemeProvider>
 );
 

@@ -1,3 +1,8 @@
 #npm stuff
 node_modules/
 .idea/
+npm-debug.lo*
+
+#flask stuff
+ENV/
+logOutput*

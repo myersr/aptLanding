@@ -1,57 +1,61 @@
-/**
- * Created by roy on 12/24/16.
- */
-var React = require('react');
-var Sidebar = require('react-sidebar');
+import React from 'react';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import {blueGrey500, blueGrey700, pinkA200,
+    grey100, grey300, grey400, grey500,
+    white, darkBlack, fullBlack} from 'material-ui/styles/colors';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import { Link } from 'react-router'
 
+import FaAlignJustify from 'react-icons/lib/fa/align-justify';
 
-var sideBar = React.createClass({
-    getInitialState() {
-        return {sidebarOpen: true, sidebarDocked: true};
-    },
+export default class DrawerDck extends React.Component {
 
-    onSetSidebarOpen: function(open) {
-        this.setState({sidebarOpen: open});
-    },
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            width: 10,
+            zDepth: 5,
+            style: {
+                backgroundColor: blueGrey500
+                // palette: {
+                //     primary1Color: blueGrey500,
+                //     primary2Color: blueGrey700,
+                //     primary3Color: grey400,
+                //     accent1Color: pinkA200,
+                //     accent2Color: grey100,
+                //     accent3Color: grey500,
+                //     textColor: darkBlack,
+                //     alternateTextColor: white,
+                //     canvasColor: white,
+                //     borderColor: grey300,
+                //     // disabledColor: fade(darkBlack, 0.3),
+                //     pickerHeaderColor: blueGrey500,
+                //     // clockCircleColor: fade(darkBlack, 0.07),
+                //     shadowColor: fullBlack,
+                // }
+            }
+        };
+    }
 
-    componentWillMount: function() {
-        var mql = window.matchMedia(`(min-width: 800px)`);
-        mql.addListener(this.mediaQueryChanged);
-        this.setState({mql: mql, sidebarDocked: mql.matches});
-    },
+    handleToggle = () => this.setState({open: !this.state.open});
 
-    componentWillUnmount: function() {
-        this.state.mql.removeListener(this.mediaQueryChanged);
-    },
+    handleClose = () => this.setState({open: false});
 
-    mediaQueryChanged: function() {
-        this.setState({sidebarDocked: this.state.mql.matches});
-    },
-
-    onSetOpen(open) {
-        this.setState({open: open});
-    },
-
-    toggleOpen(ev) {
-        this.setState({open: !this.state.open});
-
-        if (ev) {
-            ev.preventDefault();
-        }
-    },
-
-    render: function() {
-        var sidebarContent = <b>Sidebar content</b>;
-
+    render() {
         return (
-            <Sidebar sidebar={sidebarContent}
-                     open={this.state.sidebarOpen}
-                     docked={this.state.sidebarDocked}
-                     onSetOpen={this.onSetSidebarOpen}>
-                <b>Main content</b>
-            </Sidebar>
+            <div>
+                <IconButton onTouchTap={this.handleToggle} ><NavigationMenu color="white" /></IconButton>
+                <Drawer docked={false} width={225}
+                        open={this.state.open} onRequestChange={(open) => this.setState({open})}>
+
+                    <Link to={`/`}><MenuItem onTouchTap={this.handleClose}>HOME</MenuItem></Link>
+                    <Link to={`/about`}><MenuItem onTouchTap={this.handleClose}>ABOUT</MenuItem></Link>
+                </Drawer>
+            </div>
         );
     }
-});
-
-module.exports = sideBar;
+}

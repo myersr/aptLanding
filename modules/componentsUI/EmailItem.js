@@ -28,6 +28,7 @@ export default class EmailItem extends React.Component {
             emailT: props.emailText,
             secondaryT: props.secondaryText
         };
+        this.hLink = 'mailto:'+props.emailText
         // this.switchIcon = this.switchIcon.bind(this)
     }
 
@@ -40,6 +41,10 @@ export default class EmailItem extends React.Component {
             }));
 
             e.clearSelection();
+            // setTimeout(
+            //     escape("this.setState(prevState => ({clippy: <GoClippy size={10} color={brown500}/>}))")
+            // , 1000)
+            //setTimeout('console.log("test")', 1000)
         })
 
         this.clipboard.on('error', (e) =>{
@@ -57,10 +62,15 @@ export default class EmailItem extends React.Component {
     };
 
 
-
+    //
+    // setTimeout(function = () => {
+    //     if (newState == -1) {
+    //         alert('VIDEO HAS STOPPED');
+    //     }
+    // }, 5000)
     // switchIcon(){
     //     this.setState(prevState => ({
-    //         clippy: <GoCheck color={brown500}/>
+    //         clippy: <GoClippy color={brown500}/>
     //     }));
     // }
 
@@ -74,7 +84,7 @@ export default class EmailItem extends React.Component {
                     leftIcon={this.state.clippy}
                     primaryText={this.state.emailT}
                     secondaryText={this.state.secondaryT}
-                    rightIcon={<a href="mailto:{this.state.emailT}"><GoMail size={24} color={brown500}/></a>}
+                    rightIcon={<a href={this.hLink} ><GoMail size={24} color={brown500}/></a>}
                 />
             </div>
 

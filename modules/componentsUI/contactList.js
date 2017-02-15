@@ -18,7 +18,7 @@ import MdContactPhone from 'react-icons/lib/md/contact-phone';
 import MdPictureAsPdf from 'react-icons/lib/md/picture-as-pdf';
 
 //testing instance of whole EmailList item
-import EmailItem from './EmailItem'
+import EmailItem from 'componentsUI/EmailItem'
 
 
 import FaLinkedinSquare from 'react-icons/lib/fa/linkedin-square';
@@ -28,7 +28,7 @@ const style = {
     paper: {
         margin: 20,
         textAlign: 'center',
-        display: 'inline-block'
+        display: 'inline-block',
     },
     link: {
         textDecoration: 'none'
@@ -109,10 +109,12 @@ const ContactList = () => (
                     </ListItem>
                 </a>
                 <Divider inset={true} />
-                <ListItem
-                    leftIcon={<MdPictureAsPdf color={brown500} />}
-                    primaryText="Resume">
-                </ListItem>
+                <a href="https://tinyrick.me/docs/resumeRoyMyers2017.pdf">
+                    <ListItem
+                        leftIcon={<MdPictureAsPdf color={brown500} />}
+                        primaryText="Resume">
+                    </ListItem>
+                </a>
             </List>
         </Paper>
     </div>
