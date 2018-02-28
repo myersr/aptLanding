@@ -9,6 +9,8 @@ import IconButton from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import { Link } from 'react-router'
 
+// import ContactList from 'componentsUI/contactList'
+
 import FaAlignJustify from 'react-icons/lib/fa/align-justify';
 
 export default class DrawerDck extends React.Component {
@@ -17,7 +19,7 @@ export default class DrawerDck extends React.Component {
         super(props);
         this.state = {
             open: false,
-            width: 10,
+            width: 15,
             zDepth: 5,
             style: {
                 backgroundColor: blueGrey500
@@ -54,6 +56,8 @@ export default class DrawerDck extends React.Component {
 
                     <Link to={`/`}><MenuItem onTouchTap={this.handleClose}>HOME</MenuItem></Link>
                     <Link to={`/about`}><MenuItem onTouchTap={this.handleClose}>ABOUT</MenuItem></Link>
+                    <Link to={`/contact`}><MenuItem onTouchTap={this.handleClose}>CONTACT</MenuItem></Link>
+
                 </Drawer>
             </div>
         );

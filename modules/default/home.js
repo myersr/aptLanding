@@ -6,21 +6,20 @@ import GoMarkGithub from 'react-icons/lib/go/mark-github';
 import RaisedButton from 'material-ui/RaisedButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import MeCard from 'componentsUI/meCard';
-import ContactList from 'componentsUI/contactList';
+// import ContactList from 'componentsUI/contactList';
 
-const style = {
-    margin: 12,
+const stylez = {
+    margin: 2,
 };
 
 export default React.createClass({
     render() {
         return(
             <div>
-                <ContactList/>
-                <FloatingActionButton>
+                <MeCard/>
+                <FloatingActionButton href="https://github.com/myersr">
                     <GoMarkGithub size={30} />
                 </FloatingActionButton>
-                <p>Home</p>
             </div>
         )
 

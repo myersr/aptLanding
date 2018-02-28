@@ -8,6 +8,7 @@ import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-route
 
 import App from 'modules/app'
 import About from 'default/about'
+import Contact from 'default/contact'
 import Home from 'default/home'
 import NotFound from 'default/notFound'
 import sideB from 'componentsUI/sideBar'
@@ -26,6 +27,7 @@ render((
             <IndexRoute component={Home}/>
             {/*<Route path="/home" component={Home}/>*/}
             <Route path="/about" component={About}/>
+            <Route path="/contact" component={Contact}/>
             <Route path="/404" component={NotFound} />
             <Redirect from={'*'} to="/404" />
         </Route>

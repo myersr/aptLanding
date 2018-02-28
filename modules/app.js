@@ -40,11 +40,13 @@ export default React.createClass({
 
         return (
             <MuiThemeProvider muiTheme={muiThemeC}>
-                    <div>
-                        <Main/>
-                        { this.props.children }
+                <div>
+                    <Main style={{height: "100%"}}/>
+                    { this.props.children }
+                    <div style={{ bottom: '0' }}>
                         <FooterBar/>
                     </div>
+                </div>
             </MuiThemeProvider>
         )
     }

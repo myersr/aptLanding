@@ -27,8 +27,6 @@ const styles = {
     }
 }
 
-var socket = io.connect('http://localhost:5000')
-
 export default class SplineGraph extends React.Component {
 
     constructor(props){
@@ -43,7 +41,6 @@ export default class SplineGraph extends React.Component {
         this.clicked = (ev) => socket.emit('start live', { my: 'data' },function (){})//console.log("button triggered")
         this.killed = (ev) => socket.emit('kill loop', { my: 'data' },function (){
             console.log("killing feed")
-            socket.emit('killCon')
         })//console.log("button triggered")
 
     }
@@ -63,9 +60,7 @@ export default class SplineGraph extends React.Component {
 
     componentWillUnmount(){
         // clearChart() no method looks like react takes care of killing instance
-        socket.emit('killCon', function (statusM){
-            console.log("Attempted Unmount")
-        })
+
         // console.log("splineGraph unmounted")
 
     };

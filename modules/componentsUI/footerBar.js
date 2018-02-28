@@ -5,6 +5,8 @@ import React from 'react';
 // import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper';
+import Snackbar from 'material-ui/Snackbar';
+
 //
 // import FontIcon from 'material-ui/FontIcon';
 // import SvgIconFace from 'material-ui/svg-icons/action/face';
@@ -24,7 +26,7 @@ const styles = {
 };
 
 function handleTouchTap() {
-    alert('You clicked the Chip.');
+    console.log('You clicked the Chip.');
 }
 
 var style = {
@@ -53,7 +55,6 @@ const FooterBar = React.createClass({
     render: function() {
         return (
             <Paper zDepth={3} style={style}>
-                {/*<div style={phantom} />*/}
                 <div style={styleTest}>
                     <Chip style={styles.chip} onTouchTap={handleTouchTap} >Powered by <em>Material-UI</em></Chip>
                     <Chip style={styles.chip} onTouchTap={handleTouchTap} >Check me out on Github</Chip>
